@@ -18,8 +18,8 @@ RUN if [ "$BUILD_ENV" = "development" ]; \
 # Copy the rest of the application files
 COPY . .
 
-# Expose port 3000 for testing or production
-EXPOSE 3000
+ARG WHEELTRIP_USER_PORT
+EXPOSE $WHEELTRIP_USER_PORT
 
 # Run in either development or production mode
 CMD if [ "$BUILD_ENV" = "development" ]; \

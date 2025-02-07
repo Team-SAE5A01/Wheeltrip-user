@@ -1,16 +1,19 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { apiBaseUrl } from '@/lib/config';
 
 interface Message {
     key: string;
 }
+
+console.log(`${apiBaseUrl}/test`)
 
 const TestApiPage = () => {
     const [test, setTest] = useState<Message | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch("http://127.0.0.1:4500/test");
+            const res = await fetch(`${apiBaseUrl}/test`);
             const data: Message = await res.json();
             console.log(data)
             setTest(data);
