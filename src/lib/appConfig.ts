@@ -1,4 +1,4 @@
-// app/config/corsConfig.ts
+// src/lib/appConfig.ts
 
 // Define the shape of the CORS configuration
 export interface CorsConfig {
@@ -33,6 +33,8 @@ if (buildEnv === 'production') {
 }
 
 const apiBaseUrl = `${protocol}://${apiHostname}:${datamediaPort}`;
+
+console.log(apiBaseUrl)
 
 // Export the hostnames and build environment
 export { apiBaseUrl, buildEnv };

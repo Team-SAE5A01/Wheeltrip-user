@@ -6,14 +6,7 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:4500/:path*',
-      },
-    ]
-  },
+  output: 'standalone',
   // Add other config options here if needed
 };
 
