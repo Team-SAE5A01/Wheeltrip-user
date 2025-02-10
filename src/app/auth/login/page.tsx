@@ -4,8 +4,10 @@ import { useState } from 'react';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false); // State for "Remember Me"
   const [error, setError] = useState('');
 
+  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you can add your login logic (e.g., validation or API call)
@@ -15,6 +17,15 @@ const LoginPage = () => {
       setError('');
       // Handle the login (e.g., call your authentication API)
       console.log('Logging in with:', email, password);
+
+      // Store email and password in localStorage if "Remember Me" is checked
+      if (rememberMe) {
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password); // You may want to store only the email for security reasons
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+      }
     }
   };
 
@@ -25,7 +36,7 @@ const LoginPage = () => {
         <p className="text-center text-gray-600 mb-8">Please login to your account</p>
 
         {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium">Email</label>
@@ -49,6 +60,17 @@ const LoginPage = () => {
               className="w-full p-3 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
+          </div>
+
+          <div className="flex items-center mb-6">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+            />
+            <label htmlFor="rememberMe" className="ml-2 text-gray-700">Remember Me</label>
           </div>
 
           <button
