@@ -17,7 +17,7 @@ const HomePage = () => {
             Log In
           </a>
           <a
-            href="/auth/signup"
+            href="/auth/register"
             className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-lg hover:bg-white hover:text-black transition duration-200"
           >
             Sign Up
