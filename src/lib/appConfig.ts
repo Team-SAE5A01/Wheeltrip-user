@@ -34,7 +34,5 @@ if (buildEnv === 'production') {
 
 const apiBaseUrl = `${protocol}://${apiHostname}:${datamediaPort}`;
 
-console.log(apiBaseUrl)
-
 // Export the hostnames and build environment
 export { apiBaseUrl, buildEnv };
