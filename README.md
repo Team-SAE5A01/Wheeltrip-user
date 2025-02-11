@@ -1,3 +1,3 @@
-# WEB_ClientPMR
+# Wheeltrip User
 
 Application Web pour le projet PMR
