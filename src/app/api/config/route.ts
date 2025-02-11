@@ -13,7 +13,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json({
-      error: 'Failed to connect to API',
+      error: 'Failed to connect to the API',
       apiBaseUrl,
     }, { status: 500 });
   }

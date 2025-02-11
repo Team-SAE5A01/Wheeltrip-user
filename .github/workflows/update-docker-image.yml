@@ -23,9 +23,12 @@ jobs:
 
       - name: Build docker image
         run: |
-          docker build -f Dockerfile.prod -t jesusalejandrotm12/wheeltrip-user:${{ github.sha }} -t docker build -f Dockerfile.prod -t jesusalejandrotm12/wheeltrip-user:latest . --no-cache
+          docker build -f Dockerfile.prod \
+          -t jesusalejandrotm12/wheeltrip-user:${{ github.sha }} \
+          -t jesusalejandrotm12/wheeltrip-user:latest \
+          --no-cache . 
 
       - name: Push the latest and tagged docker image
         run: |
-          docker push jesusalejandrotm12/wheeltrip-user:${{ github.sha }}
-          docker push jesusalejandrotm12/wheeltrip-user:latest
+          docker push jesusalejandrotm12/datamedia:${{ github.sha }}
+          docker push jesusalejandrotm12/datamedia:latest
