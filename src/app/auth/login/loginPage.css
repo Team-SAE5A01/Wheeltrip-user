@@ -1,0 +1,124 @@
+/* loginPage.css */
+
+/* Background gradient and container */
+.custom-class, .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #3b82f6, #1e40af, #000000);
+    padding: 0 1rem;
+  }
+  
+  /* Form container with transparent background */
+  .login-form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 30rem;
+    transform: scale(1);
+    transition: all 0.7s ease-in-out;
+  }
+  
+  .login-form-container:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.01);
+  }
+  
+  /* Text and input styles */
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-gray-700 {
+    color: #4b5563;
+  }
+  
+  .text-gray-600 {
+    color: #4b5563;
+  }
+  
+  .text-red-600 {
+    color: #ef4444;
+  }
+  
+  .text-green-500 {
+    color: #10b981;
+  }
+  
+  .text-blue-600 {
+    color: #2563eb;
+  }
+  
+  .text-blue-700 {
+    color: #1d4ed8;
+  }
+  
+  /* Input field styles */
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  
+  .input-error {
+    border-color: #ef4444;
+  }
+  
+  /* Criteria list */
+  .criteria-list {
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .criteria-check {
+    color: #10b981;
+  }
+  
+  .criteria-error {
+    color: #ef4444;
+  }
+  
+  /* Submit button styles */
+  .submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn:not(:disabled):hover {
+    background-color: #1d4ed8;
+    color: #ffffff;
+  }
+  
+  .submit-btn {
+    background-color: #3b82f6;
+  }
+  
+  /* Checkbox styles */
+  .checkbox {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.25rem;
+    color: #2563eb;
+  }
+  

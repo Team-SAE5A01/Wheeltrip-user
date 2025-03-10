@@ -34,6 +34,7 @@ const ReservationPage = () => {
             <input
               type="text"
               id="departure"
+              placeholder='Entrer le départ'
               value={departure}
               onChange={(e) => setDeparture(e.target.value)}
               className="w-full p-3 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -46,6 +47,7 @@ const ReservationPage = () => {
             <input
               type="text"
               id="destination"
+              placeholder='Entrer la destination'
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               className="w-full p-3 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

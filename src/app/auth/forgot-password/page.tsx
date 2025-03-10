@@ -1,5 +1,6 @@
 // pages/forgot-password.tsx
 'use client';
+import "../login/loginPage.css"
 
 import React, { useState } from 'react';
 
@@ -26,8 +27,11 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+    <div className="custom-class">
+        <div className="login-form-container">
+             <a href="/">
+          <img src="/logo.png" alt="Logo" className="h-20"  />
+        </a>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
           Mot de passe oublié
         </h2>
