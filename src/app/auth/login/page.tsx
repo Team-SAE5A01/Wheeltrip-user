@@ -1,36 +1,23 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
-import './loginPage.css'; // Importer le fichier CSS
+import React, { useState, useCallback } from 'react';
+import axios from 'axios';
+import './loginPage.css'; // Import du CSS
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState<{ email?: string; password?: string }>({});
+  const [error, setError] = useState<{ email?: string; password?: string; server?: string }>({});
   const [loading, setLoading] = useState(false);
 
-  const passwordCriteria = [
-    { text: 'At least 8 characters', check: password.length >= 8 },
-    { text: 'At least one uppercase letter', check: /[A-Z]/.test(password) },
-    { text: 'At least one lowercase letter', check: /[a-z]/.test(password) },
-    { text: 'At least one number', check: /[0-9]/.test(password) },
-  ];
-
-  const isPasswordValid = passwordCriteria.every((criterion) => criterion.check);
-
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
-    let errors: { email?: string; password?: string } = {};
 
-    if (!email) {
-      errors.email = 'Email is required';
-    }
+    let errors: { email?: string; password?: string; server?: string } = {};
 
-    if (!isPasswordValid) {
-      errors.password = 'Password does not meet all requirements';
-    }
+    if (!email) errors.email = 'Email is required';
+    if (!password) errors.password = 'Password is required';
 
     if (Object.keys(errors).length > 0) {
       setError(errors);
@@ -39,19 +26,23 @@ const LoginPage = () => {
     }
 
     setError({});
-    console.log('Logging in with:', email, password);
 
-    if (rememberMe) {
-      localStorage.setItem('email', email);
-    } else {
-      localStorage.removeItem('email');
-    }
+    try {
+      // Envoi de la requête avec gestion des cookies
+      const response = await axios.post('/api/auth/login', { email, mot_de_passe: password }, { withCredentials: true });
 
-    setTimeout(() => {
+      // Si la connexion est réussie, redirection vers le dashboard
+      if (response.data?.success) {
+        window.location.href = '/dashboard'; // Redirection
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error: any) {
+      setError({ server: error.response?.data?.error || 'Login failed. Please try again.' });
+    } finally {
       setLoading(false);
-      alert('Login successful!');
-    }, 1500);
-  }, [email, password, rememberMe, isPasswordValid]);
+    }
+  }, [email, password, rememberMe]);
 
   return (
     <div className="login-container">
@@ -61,9 +52,7 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium">
-              Email
-            </label>
+            <label htmlFor="email" className="block text-gray-700 font-medium">Email</label>
             <input
               type="email"
               id="email"
@@ -71,15 +60,12 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className={`input-field ${error.email ? 'input-error' : ''}`}
-              aria-label="Email address"
             />
             {error.email && <p className="text-red-600 text-sm mt-1">{error.email}</p>}
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 font-medium">
-              Password
-            </label>
+            <label htmlFor="password" className="block text-gray-700 font-medium">Password</label>
             <input
               type="password"
               id="password"
@@ -87,15 +73,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className={`input-field ${error.password ? 'input-error' : ''}`}
-              aria-label="Password"
             />
-            <div className="criteria-list">
-              {passwordCriteria.map((criterion, index) => (
-                <p key={index} className={criterion.check ? 'criteria-check' : 'criteria-error'}>
-                  {criterion.check ? '✓' : 'X'} {criterion.text}
-                </p>
-              ))}
-            </div>
             {error.password && <p className="text-red-600 text-sm mt-1">{error.password}</p>}
           </div>
 
@@ -108,9 +86,7 @@ const LoginPage = () => {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="checkbox"
               />
-              <label htmlFor="rememberMe" className="ml-2 text-gray-700">
-                Remember Me
-              </label>
+              <label htmlFor="rememberMe" className="ml-2 text-gray-700">Remember Me</label>
             </div>
 
             <a href="/auth/forgot-password" className="text-blue-600 hover:underline text-sm">
@@ -118,10 +94,12 @@ const LoginPage = () => {
             </a>
           </div>
 
+          {error.server && <p className="text-red-600 text-sm mb-4">{error.server}</p>}
+
           <button
             type="submit"
-            className={`submit-btn ${loading || !isPasswordValid || !email ? 'bg-gray-400 cursor-not-allowed' : ''}`}
-            disabled={loading || !isPasswordValid}
+            className={`submit-btn ${loading || !email || !password ? 'bg-gray-400 cursor-not-allowed' : ''}`}
+            disabled={loading || !email || !password}
           >
             {loading ? 'Logging in...' : 'Log In'}
           </button>

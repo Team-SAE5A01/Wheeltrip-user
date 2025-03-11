@@ -1,63 +1,69 @@
-"use client"; // Assure que ce composant est bien exécuté côté client
+// src/app/profile/page.tsx
 
-import React from "react";
-import Link from "next/link";
+'use client'
 
-const ProfilePage: React.FC = () => {
-  const firstName = "John";
-  const lastName = "Doe";
-  const birthDate = "01/01/1990";
-  const isPMR = true; // true si la personne est à mobilité réduite
-  const pmrType = "Fauteuil roulant"; // Type de PMR si applicable
-  const email = "johndoe@example.com";
+import { useEffect, useState } from 'react';
+
+const ProfilePage = () => {
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const email = localStorage.getItem('email'); // Récupère l'email depuis localStorage
+      if (!email) {
+        setError('Aucun email trouvé dans le stockage local');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Appel à l'API pour récupérer les données du profil
+        const response = await fetch(`/api/profile?email=${encodeURIComponent(email)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération du profil');
+        }
+
+        const data = await response.json();
+        setProfile(data); // Met à jour l'état avec les données du profil
+      } catch (error: any) {
+        setError('Échec de la récupération des données du profil');
+        console.error('Erreur:', error);
+      } finally {
+        setLoading(false); // Arrêter de charger une fois que la réponse est reçue
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  // Chargement
+  if (loading) return <div>Chargement...</div>;
+
+  // Erreur
+  if (error) return <div>{error}</div>;
+
+  // Si pas de données
+  if (!profile) return <div>Aucun profil trouvé.</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
-        <div className="flex flex-col items-center space-y-6">
-          
-          {/* Avatar avec description accessible */}
-          <div
-            className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-white text-3xl font-bold"
-            aria-label={`Photo de profil de ${firstName} ${lastName}`}
-            role="img"
-          >
-            <span>{firstName[0]}{lastName[0]}</span> {/* Initiales */}
-          </div>
-
-          {/* Informations du profil */}
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-gray-900" tabIndex={0}>
-              {firstName} {lastName}
-            </h2>
-            <p className="text-lg text-gray-700" tabIndex={0}>
-              Date de naissance : {birthDate}
-            </p>
-            <p className="text-lg text-gray-700" tabIndex={0}>
-              Adresse e-mail : <a href={`mailto:${email}`} className="text-blue-600 underline">{email}</a>
-            </p>
-            <p className="text-lg text-gray-700" tabIndex={0}>
-              PMR : {isPMR ? "Oui" : "Non"}
-            </p>
-            {isPMR && (
-              <p className="text-lg text-gray-700" tabIndex={0}>
-                Type de PMR : {pmrType}
-              </p>
-            )}
-          </div>
-          
-          {/* Bouton Modifier */}
-          <Link href="/profile/edit">
-            <button 
-              
-              className="bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 text-white py-2 px-4 rounded-lg text-lg font-semibold transition-all"
-              aria-label="Modifier le profil"
-              aria-live="polite"
-            >
-              Modifier le profil
-            </button>
-          </Link>
-        </div>
+    <div>
+      <h1>Profil de l'utilisateur</h1>
+      <div>
+        <strong>Email:</strong> {profile.email}
+      </div>
+      <div>
+        <strong>Nom:</strong> {profile.name}
+      </div>
+      <div>
+        <strong>Téléphone:</strong> {profile.phone}
       </div>
     </div>
   );
