@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, useCallback } from 'react';
+
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import './loginPage.css'; // Import du CSS
 
@@ -10,15 +11,47 @@ const LoginPage = () => {
   const [error, setError] = useState<{ email?: string; password?: string; server?: string }>({});
   const [loading, setLoading] = useState(false);
 
+  // Vérification de la saisie lors du montage du composant (pour les auto-complétions du navigateur)
+  useEffect(() => {
+    // Si les champs sont pré-remplis, assurez-vous que l'état du bouton est correctement défini
+    if (email && password) {
+      
+      setError({});
+    }
+  }, [email, password]);
+
+  // Effect pour vérifier le remplissage automatique du formulaire (auto-complétion)
+  useEffect(() => {
+    // Si les champs sont pré-remplis par le navigateur (saisie automatique), le bouton sera activé
+    if (email && password) {
+      setError({});
+    }
+  }, []);
+
+  // Effect pour vérifier le remplissage automatique après un certain délai (pour Firefox)
+  useEffect(() => {
+    const checkAutoFill = () => {
+      if (email && password) {
+        setError({});
+      }
+    };
+
+    // Utilisez un setTimeout pour vérifier après un petit délai si les champs sont remplis
+    const timer = setTimeout(checkAutoFill, 500);
+    return () => clearTimeout(timer); // Nettoyage du timer lors du démontage du composant
+  }, [email, password]);
+
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     let errors: { email?: string; password?: string; server?: string } = {};
 
+    // Validation des champs email et mot de passe
     if (!email) errors.email = 'Email is required';
     if (!password) errors.password = 'Password is required';
 
+    // Si des erreurs sont trouvées, ne pas envoyer la requête
     if (Object.keys(errors).length > 0) {
       setError(errors);
       setLoading(false);
@@ -31,13 +64,23 @@ const LoginPage = () => {
       // Envoi de la requête avec gestion des cookies
       const response = await axios.post('/api/auth/login', { email, mot_de_passe: password }, { withCredentials: true });
 
-      // Si la connexion est réussie, redirection vers le dashboard
-      if (response.data?.success) {
-        window.location.href = '/dashboard'; // Redirection
+      // Log de la réponse pour vérifier sa structure
+      console.log("Réponse de l'API : ", response.data);
+
+      // Vérification si la réponse contient le token
+      if (response.data?.access_token) {
+        // Stocker le token dans localStorage
+        localStorage.setItem('access_token', response.data.access_token);
+        console.log(localStorage.getItem('access_token'));
+
+        // Rediriger vers le dashboard
+        window.location.href = '/dashboard'; 
       } else {
         throw new Error('Invalid response from server');
       }
     } catch (error: any) {
+      // Gestion des erreurs serveur
+      console.error("Erreur lors de la connexion : ", error);
       setError({ server: error.response?.data?.error || 'Login failed. Please try again.' });
     } finally {
       setLoading(false);

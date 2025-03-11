@@ -1,8 +1,7 @@
-// src/app/profile/page.tsx
-
-'use client'
-
+'use client';
+import Navbar from '../Navbar';
 import { useEffect, useState } from 'react';
+import '../auth/login/loginPage.css'; // Assurez-vous que le chemin est correct selon l'endroit où vous placez le fichier CSS
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<any>(null);
@@ -11,19 +10,21 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const email = localStorage.getItem('email'); // Récupère l'email depuis localStorage
-      if (!email) {
-        setError('Aucun email trouvé dans le stockage local');
+      const token = localStorage.getItem('access_token'); // Récupère le token JWT
+
+      if (!token) {
+        setError('Utilisateur non authentifié');
         setLoading(false);
         return;
       }
 
       try {
-        // Appel à l'API pour récupérer les données du profil
-        const response = await fetch(`/api/profile?email=${encodeURIComponent(email)}`, {
+        // Appel à l'API avec le token
+        const response = await fetch(`/api/profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Envoi du token JWT
           },
         });
 
@@ -32,38 +33,32 @@ const ProfilePage = () => {
         }
 
         const data = await response.json();
-        setProfile(data); // Met à jour l'état avec les données du profil
+        setProfile(data);
       } catch (error: any) {
         setError('Échec de la récupération des données du profil');
         console.error('Erreur:', error);
       } finally {
-        setLoading(false); // Arrêter de charger une fois que la réponse est reçue
+        setLoading(false);
       }
     };
 
     fetchProfile();
   }, []);
 
-  // Chargement
   if (loading) return <div>Chargement...</div>;
-
-  // Erreur
   if (error) return <div>{error}</div>;
-
-  // Si pas de données
   if (!profile) return <div>Aucun profil trouvé.</div>;
 
   return (
     <div>
-      <h1>Profil de l'utilisateur</h1>
-      <div>
-        <strong>Email:</strong> {profile.email}
-      </div>
-      <div>
-        <strong>Nom:</strong> {profile.name}
-      </div>
-      <div>
-        <strong>Téléphone:</strong> {profile.phone}
+      <Navbar/>
+      <div className="login-container">
+        <div className="login-form-container">
+          <h1 className="text-center text-blue-600">Profil de l'utilisateur</h1>
+          <div><strong>ID:</strong> {profile.id}</div>
+          <div><strong>Email:</strong> {profile.email}</div>
+          <div><strong>Nom:</strong> {profile.name}</div>
+        </div>
       </div>
     </div>
   );
