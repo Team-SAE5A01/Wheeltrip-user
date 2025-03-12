@@ -1,0 +1,163 @@
+/* Profile Page CSS */
+
+/* Dégradé de fond pour toute la page */
+.profile-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #3b82f6, #1e40af, #000000);
+    padding: 0 1rem;
+    
+    /* Centrer le contenu sans flex */
+    display: block;
+    position: relative;
+  }
+  
+  .profile-form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 32rem;
+    transform: translateY(50%);  /* Décale le formulaire vers le bas de la page */
+    position: absolute;
+    top: 50%; /* Positionner à 50% de la hauteur de la page */
+    left: 50%; /* Positionner à 50% de la largeur de la page */
+    transform: translate(-50%, -50%); /* Centrer le formulaire en utilisant translate */
+    transition: all 0.7s ease-in-out;
+  }
+  
+  .profile-form-container:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.01) translate(-50%, -50%);
+  }
+  
+  /* Avatar */
+  .profile-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Champs de saisie */
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  
+  .input-error {
+    border-color: #ef4444;
+  }
+  
+  .input-field:disabled {
+    background-color: #f3f4f6;
+  }
+  
+  /* Labels et champs de texte */
+  .label {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-gray-700 {
+    color: #4b5563;
+  }
+  
+  .text-red-600 {
+    color: #ef4444;
+  }
+  
+  .text-green-600 {
+    color: #10b981;
+  }
+  
+  /* Boutons de modification et sauvegarde */
+  .button {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .button:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+  }
+  
+  .button:hover {
+    transform: scale(1.05);
+  }
+  
+  .button-save {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .button-save:hover {
+    background-color: #059669;
+  }
+  
+  .button-edit {
+    background-color: #2563eb;
+    color: white;
+  }
+  
+  .button-edit:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Espace entre les éléments du formulaire */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .space-y-2 {
+    margin-bottom: 1rem;
+  }
+  
+  .space-y-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Styles pour les sélecteurs de date et options */
+  .select-field, .date-field {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid #d1d5db;
+    transition: border-color 0.3s ease;
+  }
+  
+  .select-field:focus, .date-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  
+  .select-field:disabled, .date-field:disabled {
+    background-color: #f3f4f6;
+  }
+  

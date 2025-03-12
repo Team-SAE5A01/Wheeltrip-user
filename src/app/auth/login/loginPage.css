@@ -9,6 +9,15 @@
     background: linear-gradient(to bottom, #3b82f6, #1e40af, #000000);
     padding: 0 1rem;
   }
+
+  /* loginPage.css */
+
+  /* Dégradé de couleurs pour la barre de navigation */
+  .bg-login {
+    background: linear-gradient(to bottom, #3b82f6); /* Dégradé allant de bleu à noir */
+  }
+
+
   
   /* Form container with transparent background */
   .login-form-container {
@@ -121,4 +130,4 @@
     border-radius: 0.25rem;
     color: #2563eb;
   }
-  
+   

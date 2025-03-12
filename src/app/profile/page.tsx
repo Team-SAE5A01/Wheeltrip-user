@@ -1,12 +1,14 @@
 'use client';
 import Navbar from '../Navbar';
 import { useEffect, useState } from 'react';
-import '../auth/login/loginPage.css'; // Assurez-vous que le chemin est correct selon l'endroit où vous placez le fichier CSS
+import Link from 'next/link';
+import './profile.css'; // Assurez-vous que le chemin est correct
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -49,15 +51,110 @@ const ProfilePage = () => {
   if (error) return <div>{error}</div>;
   if (!profile) return <div>Aucun profil trouvé.</div>;
 
+  const handleSave = () => {
+    setIsEditing(false);
+    alert('Profil mis à jour!');
+    // Call the API to update profile data here, if necessary
+  };
+
   return (
-    <div>
-      <Navbar/>
-      <div className="login-container">
-        <div className="login-form-container">
-          <h1 className="text-center text-blue-600">Profil de l'utilisateur</h1>
-          <div><strong>ID:</strong> {profile.id}</div>
-          <div><strong>Email:</strong> {profile.email}</div>
-          <div><strong>Nom:</strong> {profile.name}</div>
+    <div className="profile-page">
+      <Navbar />
+      <div className="profile-form-container">
+        <div className="flex flex-col items-center space-y-6">
+          {/* Avatar avec description accessible */}
+          <div
+            className="profile-avatar"
+            aria-label={`Photo de profil de ${profile.prenom} ${profile.nom}`}
+            role="img"
+          >
+            <span>{profile.prenom[0]}{profile.nom[0]}</span> {/* Initiales */}
+          </div>
+
+          {/* Formulaire de modification */}
+          <div className="w-full space-y-4">
+            <div className="text-center space-y-2">
+              <input
+                type="text"
+                value={profile.prenom}
+                onChange={(e) => setProfile({ ...profile, prenom: e.target.value })}
+                className="input-field"
+                disabled={!isEditing}
+              />
+              <input
+                type="text"
+                value={profile.nom}
+                onChange={(e) => setProfile({ ...profile, nom: e.target.value })}
+                className="input-field"
+                disabled={!isEditing}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="label">Date de naissance :</label>
+              <input
+                type="date"
+                value={profile.date_naissance}
+                onChange={(e) => setProfile({ ...profile, date_naissance: e.target.value })}
+                className="input-field date-field"
+                disabled={!isEditing}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="label">Adresse e-mail :</label>
+              <input
+                type="email"
+                value={profile.email}
+                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                className="input-field"
+                disabled={!isEditing}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="label">PMR :</label>
+              <select
+                value={profile.isPMR ? "Oui" : "Non"}
+                onChange={(e) => setProfile({ ...profile, isPMR: e.target.value === "Oui" })}
+                className="input-field select-field"
+                disabled={!isEditing}
+              >
+                <option>Oui</option>
+                <option>Non</option>
+              </select>
+            </div>
+
+            {profile.isPMR && (
+              <div className="space-y-2">
+                <label className="label">Type de PMR :</label>
+                <input
+                  type="text"
+                  value={profile.pmrType}
+                  onChange={(e) => setProfile({ ...profile, pmrType: e.target.value })}
+                  className="input-field"
+                  disabled={!isEditing}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Boutons Modifier / Sauvegarder */}
+          {isEditing ? (
+            <button
+              className="button button-save"
+              onClick={handleSave}
+            >
+              Sauvegarder
+            </button>
+          ) : (
+            <button
+              className="button button-edit"
+              onClick={() => setIsEditing(true)}
+            >
+              Modifier le profil
+            </button>
+          )}
         </div>
       </div>
     </div>
