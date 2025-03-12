@@ -13,9 +13,16 @@
   /* loginPage.css */
 
   /* Dégradé de couleurs pour la barre de navigation */
+  /* auth/login/loginPage.css */
   .bg-login {
-    background: linear-gradient(to bottom, #3b82f6); /* Dégradé allant de bleu à noir */
+    background-color: transparent;
+    position: absolute; /* Ensure the navbar stays on top if it's fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10; /* Adjust if needed to keep navbar on top of other elements */
   }
+
 
 
   

@@ -17,6 +17,13 @@ const Navbar = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleLogout = () => {
+    // Supprimer le token du localStorage
+    localStorage.removeItem('access_token');
+    // Rediriger vers la page d'accueil après déconnexion
+    window.location.href = '/';
+  };
+
   return (
     <nav className="bg-login p-4">  {/* Utilisation de la classe bg-login avec le dégradé */}
       <div className="mx-auto flex justify-between items-center">
@@ -37,12 +44,26 @@ const Navbar = () => {
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
               {isAuthenticated ? (
-                <a
-                  href="/profile"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >
-                  Profile
-                </a>
+                <>
+                  <a
+                    href="/profile"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  >
+                    Profil
+                  </a>
+                  <a
+                    href="/reservation/my-reservations"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  >
+                    Mes trajets
+                  </a>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full px-4 py-2 text-gray-800 text-left hover:bg-gray-200"
+                  >
+                    Déconnexion
+                  </button>
+                </>
               ) : (
                 <>
                   <a

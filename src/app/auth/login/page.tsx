@@ -71,7 +71,7 @@ const LoginPage = () => {
         localStorage.setItem('access_token', response.data.access_token);
 
         // Rediriger vers le dashboard
-        window.location.href = '/dashboard'; 
+        window.location.href = '/'; 
       } else {
         throw new Error('Invalid response from server');
       }
