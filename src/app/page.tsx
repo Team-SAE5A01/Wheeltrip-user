@@ -18,16 +18,49 @@ const HomePage = () => {
     <div className="relative min-h-screen text-white" style={{ background: "linear-gradient(to bottom, #3b82f6, #1e40af, #000000)" }}>
       <Navbar />
       
-      {/* Section avec l'image de fond et texte explicatif */}
+      {/* Section avec l'image de fond */}
       <div 
         className="relative bg-cover bg-center text-white py-20 px-8 text-center"
         style={{ backgroundImage: "url('/PMR.jpg')", backgroundBlendMode: "overlay", backgroundColor: "rgba(0, 0, 0, 0.6)" }}
       >
-        <h1 className="text-6xl font-extrabold mb-6 drop-shadow-lg">Pourquoi Wheeltrip ?</h1>
-        <p className="text-2xl mb-8 font-light">Wheeltrip est une plateforme de réservation dédiée aux personnes à mobilité réduite (PMR), offrant une solution de transport multimodal accessible et personnalisée. Notre mission est de rendre les voyages plus faciles et plus sûrs pour tous.</p>
+        <h1 className="text-6xl font-extrabold mb-6 drop-shadow-lg">Bienvenue sur Wheeltrip</h1>
+        <p className="text-2xl mb-8 font-light">Votre plateforme de réservation de transports multimodaux.</p>
+        <div className="flex justify-center space-x-6">
+          {!isAuthenticated ? (
+            <>
+              <a
+                href="/auth/login"
+                className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
+              >
+                Connexion
+              </a>
+              <a
+                href="/auth/register"
+                className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
+              >
+                Inscription
+              </a>
+            </>
+          ) : (
+            <>
+              <a
+                href="/profile"
+                className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
+              >
+                Profil
+              </a>
+              <a
+                href="/reservation/my-reservations"
+                className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
+              >
+                Mes trajets
+              </a>
+            </>
+          )}
+        </div>
       </div>
 
-      {/* Section des services avec padding en dessous */}
+      {/* Section des services avec padding en bas */}
       <div className="mt-16 px-8 flex flex-wrap justify-center gap-8 pb-16">
         <div className="bg-white text-blue-900 p-6 rounded-2xl shadow-xl flex flex-col items-center w-full sm:w-72 md:w-80 lg:w-96 xl:w-1/4 transform transition-all duration-700 ease-in-out hover:scale-105">
           <FaBus className="h-12 w-12 text-blue-900 mb-4" />
