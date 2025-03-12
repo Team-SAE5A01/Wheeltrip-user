@@ -30,11 +30,8 @@ async function loginUser(email: string, motDePasse: string) {
     if (!awsMicroIp) throw new Error("Impossible de récupérer l'IP AWS");
 
     const apiUrl = `http://${awsMicroIp}:4500/api/login`;
-    console.log(`Appel de l'API LOGIN : ${apiUrl}`);
 
     const response = await axios.post(apiUrl, { email, mot_de_passe: motDePasse });
-
-    console.log('Réponse de l\'API login (token) :', response.data.access_token);
 
     return response.data;
   } catch (error: any) {

@@ -16,7 +16,6 @@ async function getAwsMicroIp(): Promise<string | null> {
       },
     });
 
-    console.log('IP obtenue depuis Doppler:', response.data.secrets.NEXT_PUBLIC_AWS_MICRO_IP.computed);
     return response.data.secrets.NEXT_PUBLIC_AWS_MICRO_IP.computed || null;
   } catch (error: any) {
     console.error('Erreur lors de la récupération de AWS_MICRO_IP', error.response?.data || error.message);

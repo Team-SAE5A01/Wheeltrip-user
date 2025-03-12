@@ -7,7 +7,6 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') { // Vérifier si on est côté client
       const token = localStorage.getItem('access_token');
-      console.log("Token récupéré depuis localStorage :", token);
 
       if (token) {
         setAccessToken(token);

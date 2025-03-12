@@ -64,14 +64,11 @@ const LoginPage = () => {
       // Envoi de la requête avec gestion des cookies
       const response = await axios.post('/api/auth/login', { email, mot_de_passe: password }, { withCredentials: true });
 
-      // Log de la réponse pour vérifier sa structure
-      console.log("Réponse de l'API : ", response.data);
 
       // Vérification si la réponse contient le token
       if (response.data?.access_token) {
         // Stocker le token dans localStorage
         localStorage.setItem('access_token', response.data.access_token);
-        console.log(localStorage.getItem('access_token'));
 
         // Rediriger vers le dashboard
         window.location.href = '/dashboard'; 
